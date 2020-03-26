@@ -980,6 +980,8 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Pages\Index.cshtml" />
+    <Content Include="Views\Pages\_PagesMenuPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Models\" />
@@ -989,7 +991,6 @@
     <Folder Include="fileman\tmp\" />
     <Folder Include="fileman\Uploads\Documents\" />
     <Folder Include="fileman\Uploads\FLV\" />
-    <Folder Include="Views\Pages\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

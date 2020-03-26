@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Store.Models.Data;
+using Store.Models.ViewModels.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +13,60 @@ namespace Store.Controllers
         // GET: Index/{page}
         public ActionResult Index(string page = "")
         {
-            return View();
+            //get/install short title(slug)
+            if (page == "")
+                page = "home";
+
+            //announce model and class DTO
+            PageVM model;
+            PagesDTO dto;
+
+            //check is available page
+            using (Db db = new Db())
+            {
+                if (!db.Pages.Any(x => x.Slug.Equals(page)))
+                    return RedirectToAction("Index", new { page = "" });
+            }
+
+            //get DTO page
+            using (Db db = new Db())
+            {
+                dto = db.Pages.Where(x => x.Slug == page).FirstOrDefault();
+            }
+
+            //instal title page
+            ViewBag.PageTitle = dto.Title;
+
+                //check side bar
+                if (dto.HasSidebar == true)
+            {
+                ViewBag.Sidebar = "Yes";
+            }
+            else
+            {
+                ViewBag.Sidebar = "No";
+            }
+
+            //fill model data
+            model = new PageVM(dto);
+
+                //return view with model
+                return View(model);
+        }
+
+        public ActionResult PagesMenuPartial()
+        {
+            //initialization list PageVM
+            List<PageVM> pageVMList;
+
+            //get all pages excepc home
+            using (Db db = new Db())
+            {
+                pageVMList = db.Pages.ToArray().OrderBy(x => x.Sorting).Where(x => x.Slug != "home")
+                    .Select(x => new PageVM(x)).ToList();
+            }
+            //return part view with list data
+            return PartialView("_PagesMenuPartial", pageVMList);
         }
     }
 }
