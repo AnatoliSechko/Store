@@ -549,7 +549,7 @@ namespace Store.Areas.Admin.Controllers
         public void DeleteImage(int id, string imageName)
         {
             string fullPath1 = Request.MapPath("~/Images/Uploads/Products/" + id.ToString() + "/Gallery/" + imageName);
-            string fullPath2 = Request.MapPath("~/Images/Uploads/Products/" + id.ToString() + "/Gallery/Thumbs" + imageName);
+            string fullPath2 = Request.MapPath("~/Images/Uploads/Products/" + id.ToString() + "/Gallery/Thumbs/" + imageName);
         
             if (System.IO.File.Exists(fullPath1))
             {
