@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Shopping Cart</title>
+    <title>@ViewBag.Title - Apple</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head> 
@@ -18,15 +18,59 @@
 
                 @Html.Action("PagesMenuPartial", "Pages")
 
+                @if (Request.IsAuthenticated)
+                {
+                    <li> @Html.ActionLink("Logout", "Logout", "Account", null, new { @class = "navbar-text", style = "text-decoration: none" }) </li>
+                }
+                else
+                {
+                    if (ViewBag.Title == "Login")
+                    {
+                        <li class="navbar-text"> @Html.ActionLink("Login", "Login", "Account", null, new { @class = "active", style = "text-decoration: none" }) </li>
+                    }
+                    else
+                    {
+                        <li> @Html.ActionLink("Login", "Login", "Account", null, new { @class = "navbar-text", style = "text-decoration: none" }) </li>
+                    }
+                }
+
+
+                @if (Request.IsAuthenticated && User.IsInRole("User"))
+                {
+                    if (ViewBag.Title == "User Profile")
+                    {
+                        <li class="active"> @Html.Action("UserNavPartial", "Account", new { area = "" }) </li>
+                    }
+                    else
+                    {
+                        <li class="active"> @Html.Action("UserNavPartial", "Account", new { area = "" }) </li>
+                    }
+
+                }
+
             </ul>
-            <span class="navbar-text">
-                Navbar text with an inline element
-            </span>
+
+            @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                <span class="navbar-text">
+                    @Html.ActionLink("Admin Area", "Index", "Dashboard", new { area = "Admin" }, null)
+                </span>
+            }
+            else
+            {
+                if (ViewBag.Title != "Cart Details")
+                {
+                <span class="navbar-text">
+                    @Html.Action("CartPartial", "Cart")
+                </span>
+                }
+
+            }
         </div>
     </nav>
 
  
-    <div class="container body-content">
+    <div class="container body-content" style="margin-top: 30px;">
         <div class="row">
 
             <div class="col-sm-12 col-md-3 list-group">
